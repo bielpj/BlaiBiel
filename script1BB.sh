@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if (($# eq 0)); then
+if (($# -eq 0)); then
 
 	cut -d',' -f 1-11, 13-15 supervivents.csv > sortida.csv
 
@@ -31,12 +31,22 @@ if (($# eq 0)); then
 
     	echo "$line,$Rlikes,$Rdislikes" >> "sortida.csv"
 	done
+fi
+
+else 
+	if [ ! -f "sortida.csv" ]; then
+    		echo "L'arxiu sortida.csv no existeix."
+    		exit 1
+	fi
 
 
-        print $0 "," Rlikes "," Rdislikes;
-    }' >> "sortida.csv"
-done
+	linia_buscada=$(grep "$search_term" sortida.csv)
 
-
+	if [ -n "$linia_buscada" ]; then
+    		echo "$linia_buscada" | cut -d',' -f1,2,3,4,5,6,7,8
+	else
+    		echo "No s'han trobat coincidències."
+	fi
+fi
 
 
