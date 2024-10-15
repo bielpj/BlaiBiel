@@ -1,15 +1,15 @@
 #!/bin/bash
 
-if (($# -eq 0)); then
+if [$# -eq 0]; then
 
 	cut -d',' -f 1-11, 13-15 supervivents.csv > sortida.csv
 
-	awk {if ($video_error_or_removed !=  True) print} sortida.csv | wc -l
+	awk -F',' '{if ($11 !=  True) print}' sortida.csv | wc -l
 
-	awk {NR == Ranking_Views}
+	awk '{NR == Ranking_Views}'
 
-	awk {if ($Views <= 1000000) $Ranking_Views = "Bo"; elif ($Views <= 10000000) $Ranking_Views = "Exel·lent";
- 		else ($Ranking_Views = "Estrella"} sortida.csv"
+	awk -F',' '{if ($8 <= 1000000) $16 = "Bo"; elif ($8 <= 10000000) $16 = "Exel·lent";
+ 		else ($16 = "Estrella"}' sortida.csv"
 
 	awk -F',' 'NR==1 {print $0",Rlikes,Rdislikes"}' "supervivents.csv" > "sortida.csv"
 
@@ -39,7 +39,7 @@ else
     		exit 1
 	fi
 
-
+	search_term=$1
 	linia_buscada=$(grep "$search_term" sortida.csv)
 
 	if [ -n "$linia_buscada" ]; then
@@ -48,5 +48,6 @@ else
     		echo "No s'han trobat coincidències."
 	fi
 fi
+
 
 
