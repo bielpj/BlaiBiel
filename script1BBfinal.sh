@@ -13,7 +13,7 @@ if [ $# -eq 0 ]; then
     awk -F',' 'BEGIN { OFS = ","} {
         if ($8 <= 1000000) $16 = "Bo";
         else if ($8 <= 10000000) $16 = "Excel·lent";
-        else $16 = "Estrella";
+        else $16 = (NR == 1 ? "Ranking_views" : "Estrella");
         print
     }' sortida.csv > temporal.csv
     mv temporal.csv sortida.csv
