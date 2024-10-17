@@ -2,19 +2,22 @@
 
 if [ $# -eq 0 ]; then
     cut -d',' -f1-11,13-15 supervivents.csv > sortida.csv
+    echo "PAS 1 FET"
 
     registres_eliminats=$(awk -F',' '{if ($11 != "True") print}' sortida.csv | wc -l)
     awk -F',' '{if ($11 != "True") print}' sortida.csv > temporal.csv
     mv temporal.csv sortida.csv
     echo "S'han eliminat $registres_eliminats registres amb errors."
+    echo "PAS 2 FET"
 
-    awk -F',' '{
+    awk -F',' 'BEGIN { OFS = ","} {
         if ($8 <= 1000000) $16 = "Bo";
         else if ($8 <= 10000000) $16 = "Excel·lent";
         else $16 = "Estrella";
         print
     }' sortida.csv > temporal.csv
     mv temporal.csv sortida.csv
+    echo "PAS 3 FET"
 
     awk -F',' 'NR==1 {print $0",Rlikes,Rdislikes"}' sortida.csv > temporal.csv
     numero_lines=$(wc -l < sortida.csv)
@@ -38,7 +41,7 @@ if [ $# -eq 0 ]; then
     done
 
     mv temporal.csv sortida.csv	
-
+    echo "PAS 4 FET"
 else 
     if [ ! -f "sortida.csv" ]; then
         echo "L'arxiu sortida.csv no existeix."
